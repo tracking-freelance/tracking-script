@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+build:
+  image: node:16
+  stage: build
+  script:
+    # Install dependencies, build the app, and store output in "dist" folder
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/ # Save the build output as an artifact
+    expire_in: 1 week # Define for how long to keep the output artifact in GitLab
+
+.deploy:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  dependencies:
+    - build # The deploy job depends on the build job
+  script:
+    - aws s3 sync --delete dist/ s3://$BUCKET_NAME
+
+deploy-to-dev:
+  extends: .deploy
+  environment: dev
+  variables:
+    BUCKET_NAME: tracking-script-dev
+
+deploy-to-prod:
+  extends: .deploy
+  environment: prod
+  variables:
+    BUCKET_NAME: tracking-script-prod
