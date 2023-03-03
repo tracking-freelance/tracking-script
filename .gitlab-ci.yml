@@ -20,7 +20,9 @@ build:
   dependencies:
     - build # The deploy job depends on the build job
   script:
+    - env >> .env
     - aws s3 sync --delete dist/ s3://$BUCKET_NAME
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
   only:
     - main
 
@@ -29,10 +31,12 @@ deploy-to-dev:
   environment: dev
   variables:
     BUCKET_NAME: tracking-script-dev
+    CLOUDFRONT_DISTRIBUTION_ID: E3OPC1UVUJULQ3
 
 deploy-to-prod:
   extends: .deploy
   environment: prod
   variables:
     BUCKET_NAME: tracking-script-prod
+    CLOUDFRONT_DISTRIBUTION_ID: E16AEH6QJADH8T
   when: manual
