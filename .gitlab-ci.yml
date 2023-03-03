@@ -21,6 +21,8 @@ build:
     - build # The deploy job depends on the build job
   script:
     - aws s3 sync --delete dist/ s3://$BUCKET_NAME
+  only:
+    - main
 
 deploy-to-dev:
   extends: .deploy
@@ -33,3 +35,4 @@ deploy-to-prod:
   environment: prod
   variables:
     BUCKET_NAME: tracking-script-prod
+  when: manual
