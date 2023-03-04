@@ -1,12 +1,26 @@
 import { record } from "rrweb";
 
+
+const UserLocalStorageIdKey = "tracking_user_id";
+
 (() => {
   record({
     emit(event) {
-      fetch(import.meta.env.VITE_SERVER + "/track", {
-        method: "POST",
-        body: JSON.stringify(event)
-      })
+      const userId = localStorage.getItem(UserLocalStorageIdKey)
+      if (userId) {
+        fetch(import.meta.env.VITE_SERVER + "/track", {
+          method: "POST",
+          body: JSON.stringify({ userId: parseInt(userId), ...event })
+        })
+      } else {
+        fetch(import.meta.env.VITE_SERVER + "/track/init", {
+          method: "POST"
+        }).then(res => {
+          return res.json()
+        }).then(res => {
+          localStorage.setItem(UserLocalStorageIdKey, res.userId)
+        })
+      }
     },
     sampling: {
       mousemove: true,

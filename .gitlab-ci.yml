@@ -31,7 +31,7 @@ deploy-to-dev:
   environment: dev
   variables:
     BUCKET_NAME: tracking-script-dev
-    CLOUDFRONT_DISTRIBUTION_ID: E3OPC1UVUJULQ3
+    CLOUDFRONT_DISTRIBUTION_ID: EVPK11IAWCBTQ
 
 deploy-to-prod:
   extends: .deploy
