@@ -8,6 +8,7 @@ build:
   script:
     # Install dependencies, build the app, and store output in "dist" folder
     - npm install
+    - env >> .env
     - npm run build
   artifacts:
     paths:
@@ -20,7 +21,6 @@ build:
   dependencies:
     - build # The deploy job depends on the build job
   script:
-    - env >> .env
     - aws s3 sync --delete dist/ s3://$BUCKET_NAME
     - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
   only:
