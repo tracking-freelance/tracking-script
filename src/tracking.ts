@@ -11,7 +11,7 @@ const UserLocalStorageIdKey = "tracking_user_id";
         fetch(import.meta.env.VITE_SERVER + "/track", {
           method: "POST",
           body: JSON.stringify({ userId: parseInt(userId), ...event })
-        })
+        }).catch(console.error)
       } else {
         fetch(import.meta.env.VITE_SERVER + "/track/init", {
           method: "POST"
@@ -19,7 +19,7 @@ const UserLocalStorageIdKey = "tracking_user_id";
           return res.json()
         }).then(res => {
           localStorage.setItem(UserLocalStorageIdKey, res.userId)
-        })
+        }).catch(console.error)
       }
     },
     sampling: {
