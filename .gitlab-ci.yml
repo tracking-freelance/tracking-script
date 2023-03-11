@@ -36,7 +36,7 @@ deploy-to-dev:
   environment: dev
   variables:
     BUCKET_NAME: tracking-script-dev
-    CLOUDFRONT_DISTRIBUTION_ID: EVPK11IAWCBTQ
+    CLOUDFRONT_DISTRIBUTION_ID: EQ6C4X3QAZ8XI
   dependencies:
     - build-dev # The deploy job depends on the build job
 
