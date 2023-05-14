@@ -8,9 +8,13 @@ const UserLocalStorageIdKey = "tracking_user_id";
       emit(event) {
         const userId = localStorage.getItem(UserLocalStorageIdKey);
         if (userId) {
-          fetch(import.meta.env.VITE_SERVER + "/track", {
+          fetch(import.meta.env.VITE_SERVER + "/trackings", {
             method: "POST",
-            body: JSON.stringify({ userId: parseInt(userId), ...event })
+            body: JSON.stringify({ ...event }),
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
+            }
           }).catch(console.error);
         } else {
           fetch(import.meta.env.VITE_SERVER + "/track/init", {
