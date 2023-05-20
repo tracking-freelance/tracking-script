@@ -23,4 +23,14 @@ async function save() {
 
 setInterval(save, 5000);
 
-window.addEventListener("beforeunload", save);
+window.addEventListener("beforeunload", () => {
+  save().then(async () => {
+    await fetch(import.meta.env.VITE_SERVER + "/trackings/end", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  });
+});
