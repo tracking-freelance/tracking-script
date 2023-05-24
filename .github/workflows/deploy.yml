@@ -14,6 +14,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_SERVER: ${{ vars.VITE_SERVER }}
 
       - name: Deploy
         uses: shallwefootball/s3-upload-action@master
@@ -23,8 +25,6 @@ jobs:
           aws_bucket: ${{ secrets.S3_BUCKET }}
           source_dir: dist
           destination_dir: .
-        env:
-          VITE_SERVER: ${{ vars.VITE_SERVER }}
 
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
