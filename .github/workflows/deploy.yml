@@ -23,3 +23,14 @@ jobs:
           aws_bucket: ${{ secrets.S3_BUCKET }}
           source_dir: dist
           destination_dir: .
+        env:
+          VITE_SERVER: ${{ vars.VITE_SERVER }}
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          PATHS: .
+          AWS_REGION: ${{ secrets.S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
