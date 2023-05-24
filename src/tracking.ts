@@ -23,7 +23,13 @@ async function save() {
 
 setInterval(save, 5000);
 
-window.addEventListener("beforeunload", () => {
+window.addEventListener("beforeunload", (e) => {
+  e = e || window.event;
+
+  // For IE and Firefox prior to version 4
+  if (e) {
+    e.returnValue = "Sure?";
+  }
   save().then(async () => {});
   fetch(import.meta.env.VITE_SERVER + "/trackings/end", {
     method: "POST",
@@ -32,4 +38,6 @@ window.addEventListener("beforeunload", () => {
       "Content-Type": "application/json"
     }
   });
+  // For Safari
+  return "Sure?";
 });
