@@ -38,5 +38,5 @@ window.addEventListener("beforeunload", (e) => {
     }
   });
   // For Safari
-  return "";
+  return false;
 });
