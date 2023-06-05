@@ -27,7 +27,7 @@ window.addEventListener("beforeunload", (e) => {
   e = e || window.event;
   // For IE and Firefox prior to version 4
   if (e) {
-    e.returnValue = "Sure?";
+    e.returnValue = "";
   }
   save().then(async () => {});
   fetch(import.meta.env.VITE_SERVER + "/trackings/end", {
@@ -38,5 +38,5 @@ window.addEventListener("beforeunload", (e) => {
     }
   });
   // For Safari
-  return "Sure?";
+  return "";
 });
